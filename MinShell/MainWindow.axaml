@@ -1,0 +1,55 @@
+<Window xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:vm="clr-namespace:MinShell.ViewModels;assembly=MinShell"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		x:Class="MinShell.MainWindow"
+		Title="MinShell"
+		CanResize="False"
+		MinHeight="400"
+		MinWidth="600"
+		Icon="/Assets/Icon.png"
+		WindowStartupLocation="CenterScreen"
+		x:DataType="vm:MainWindowViewModel">
+	<Grid RowDefinitions="Auto,*">
+		<WrapPanel Orientation="Horizontal" Grid.Row="0">
+			<Button Content="Add" Command="{Binding AddApplicationCommand}" Margin="5"/>
+			<Button Content="Remove" Command="{Binding RemoveApplicationCommand}" Margin="5"/>
+		</WrapPanel>
+		<Grid Grid.Row="1" RowDefinitions="*,Auto">
+			<ListBox Grid.Row="0"
+				SelectedItem="{Binding SelectedApplication}"
+				ItemsSource="{Binding Applications}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<DockPanel>
+							<Button 
+								DockPanel.Dock="Top"
+								Command="{Binding LaunchCommand}"
+								Content="{Binding Name, Mode=TwoWay}"/>
+							<TextBlock
+								DockPanel.Dock="Bottom"
+								Text="{Binding ErrorMessage}"
+								TextWrapping="Wrap" />
+						</DockPanel>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+			<UniformGrid
+				Grid.Row="1"
+				DataContext="{Binding SelectedApplication}">
+				<Label>Name:</Label>
+				<TextBox Margin="5" Text="{Binding Name}" />
+				<Label>Path:</Label>
+				<TextBox Margin="5" Text="{Binding Path}" />
+				<Label>Arguments:</Label>
+				<TextBox Margin="5" Text="{Binding Arguments}" />
+				<Label>Working directory:</Label>
+				<TextBox Margin="5" Text="{Binding WorkingDirectory}" />
+				<Label>Error message:</Label>
+				<TextBlock Margin="5" Text="{Binding ErrorMessage}" />
+			</UniformGrid>
+		</Grid>
+	</Grid>
+</Window>
